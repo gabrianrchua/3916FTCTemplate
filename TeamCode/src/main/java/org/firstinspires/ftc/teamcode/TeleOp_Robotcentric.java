@@ -50,7 +50,7 @@ public class TeleOp_Robotcentric extends LinearOpMode {
 
         while (opModeIsActive()) {
             /*
-                GAMEPAD 1
+                GAMEPAD 1 CONTROLS
              */
             double leftY = Gamepad1.getLeftY();
             double leftX = Gamepad1.getLeftX();
@@ -82,61 +82,20 @@ public class TeleOp_Robotcentric extends LinearOpMode {
             } else {
                 x = 0;
             }
-            //Always set flywheel speed to Gamepad 1 RT
-            double flywheelJoy = Gamepad2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-            bot.setFlywheelMotor(flywheelJoy);
 
             /*
-               GAMEPAD 2
+               GAMEPAD 2 CONTROLS
              */
 
-            if (Gamepad2.getButton(GamepadKeys.Button.DPAD_UP)){
-                bot.runWobbleServo(0.5);
-            }
-            else if (Gamepad2.getButton(GamepadKeys.Button.DPAD_DOWN)){
-                bot.runWobbleServo(-0.5);
-            }
-            else
-            {
-                bot.runWobbleServo(0);
-            }
-
-            if (Gamepad2.getButton(GamepadKeys.Button.A)){
-                bot.runTransferServo(1);
-            }
-            else if (Gamepad2.getButton(GamepadKeys.Button.Y)){
-                bot.runTransferServo(-1);
-            }
-            else{
-                bot.runTransferServo(0);
-            }
-
-            if (Gamepad2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > TeleOpConfig.STICK_DEAD_ZONE) {
-                bot.runIntakeServo(0.5);
-            } else if (Gamepad2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < -TeleOpConfig.STICK_DEAD_ZONE) {
-                bot.runIntakeServo(-0.5);
-            } else {
-                bot.runIntakeServo(0);
-            }
-
-            bot.runWobbleMotor(Gamepad2.getRightY());
-            bot.runIntakeMotor(Gamepad2.getLeftY());
 
 
-            //Send the X, Y, and rotation (Z) to the mecanum method
+
+            // Send the X, Y, and rotation (Z) to the mecanum method
             bot.mecanumDrivetrain.driveRobotCentric(x, y, z);
 
 
-            double wobblePos = bot.wobbleArmMotor.encoder.getPosition();
-            double wobbleServoPos = bot.wobbleArmServo.getPosition();
-            double flywheelSpeed = bot.flywheelMotor.getVelocity();
-
-            //Add a little telemetry
-            //telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
-            telemetry.addData("Wobble Motor", wobblePos);
-            telemetry.addData("Wobble Servo", wobbleServoPos);
-            telemetry.addData("Flywheel Speed", flywheelSpeed);
-            telemetry.addData("Flywheel Target",(flywheelJoy*FTCLibRobotFunctions.MAX_TICKS_PER_SECOND));
+            // Add a little telemetry
+            telemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             telemetry.update();
             //dashboardTelemetry.addData("Status", "power: x:" + x + " y:" + y + " z:" + z);
             //dashboardTelemetry.update();
